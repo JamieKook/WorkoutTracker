@@ -9,25 +9,6 @@ module.exports = function(app) {
             // when api.getLastWorkout invoked
         db.Workout.find({})
             .then(function(dbWorkouts) { 
-                //Adding in totalDuration
-                // for (const workout of dbWorkouts){
-                //    let totalDuration = 0; 
-                //    for (const exercise of workout){
-                //        console.log(exercise.duration); 
-                //        totalDuration += exercise.duration; 
-                //    }
-                //    workout.totalDuration = totalDuration; 
-                //    console.log(workout); 
-                // }
-                // console.log(dbWorkouts); 
-                // const length = dbWorkouts.length; 
-                // const workout = new Workout(dbWorkouts[length-1]); 
-                // workout.addTotalDuration(); 
-                // console.log(workout); 
-               for (const workout of dbWorkouts){
-                   console.log(`The total duration is ${workout.totalDuration}`); 
-               }
-
                 res.json(dbWorkouts); 
             })
             .catch(function(err){
@@ -53,7 +34,6 @@ module.exports = function(app) {
         console.log(req.body); 
         db.Workout.create(req.body)
             .then(function(dbWorkout){
-                console.log(dbWorkout); 
                 res.json(dbWorkout); 
             })
             .catch(function(err){
@@ -64,6 +44,12 @@ module.exports = function(app) {
      app.get("/api/workouts/range", function(req, res) {
         //????? what is this doing?
         // when API.getWorkoutsInRange
-        res.json()
+        db.Workout.find({})
+        .then(function(dbWorkouts) { 
+            res.json(dbWorkouts); 
+        })
+        .catch(function(err){
+            res.status(404).json(err); 
+        }); 
     }); 
 }

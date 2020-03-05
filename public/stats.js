@@ -5,6 +5,7 @@ fetch("/api/workouts/range")
     return response.json();
   })
   .then(data => {
+    console.log(data); 
     populateChart(data);
   });
 
@@ -206,7 +207,7 @@ function calculateTotalWeight(data) {
       total.push(exercise.weight);
     });
   });
-
+  console.log(total); 
   return total;
 }
 
