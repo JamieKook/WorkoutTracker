@@ -1,4 +1,3 @@
-const path = require("path");
 const db = require("../models"); 
 
 module.exports = function(app) {
@@ -10,10 +9,29 @@ module.exports = function(app) {
             // when api.getLastWorkout invoked
         db.Workout.find({})
             .then(function(dbWorkouts) { 
-            res.json(dbWorkouts); 
+                //Adding in totalDuration
+                // for (const workout of dbWorkouts){
+                //    let totalDuration = 0; 
+                //    for (const exercise of workout){
+                //        console.log(exercise.duration); 
+                //        totalDuration += exercise.duration; 
+                //    }
+                //    workout.totalDuration = totalDuration; 
+                //    console.log(workout); 
+                // }
+                // console.log(dbWorkouts); 
+                // const length = dbWorkouts.length; 
+                // const workout = new Workout(dbWorkouts[length-1]); 
+                // workout.addTotalDuration(); 
+                // console.log(workout); 
+               for (const workout of dbWorkouts){
+                   console.log(`The total duration is ${workout.totalDuration}`); 
+               }
+
+                res.json(dbWorkouts); 
             })
             .catch(function(err){
-                res.status(401).json(err); 
+                res.status(404).json(err); 
             });    
     }); 
 
@@ -24,7 +42,7 @@ module.exports = function(app) {
             res.json(dbWorkout);
         })
         .catch(function(err){
-            res.status(401).json(err); 
+            res.status(404).json(err); 
         });  
 
     }); 
