@@ -44,7 +44,7 @@ module.exports = function(app) {
      app.get("/api/workouts/range", function(req, res) {
         //????? what is this doing?
         // when API.getWorkoutsInRange
-        db.Workout.find({})
+        db.Workout.find({}).limit(7)
         .then(function(dbWorkouts) { 
             res.json(dbWorkouts); 
         })
