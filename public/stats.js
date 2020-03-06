@@ -36,8 +36,11 @@ API.getWorkoutsInRange()
   }
 function populateChart(data) {
   let durations = duration(data);
+  let totalDurations = totalDuration(data); 
   let pounds = calculateTotalWeight(data);
   let workouts = workoutNames(data);
+  let resistanceWorkouts = resistanceNames(data);
+  let poundsByCategory = calculateTotalWeightCategory(data);  
   const colors = generatePalette();
 
   let line = document.querySelector("#canvas").getContext("2d");
@@ -49,20 +52,20 @@ function populateChart(data) {
     type: "line",
     data: {
       labels: [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
+        "Workout 1",
+        "Workout 2",
+        "Workout 3",
+        "Workout 4",
+        "Workout 5",
+        "Workout 6",
+        "Workout 7"
       ],
       datasets: [
         {
           label: "Workout Duration In Minutes",
           backgroundColor: "red",
           borderColor: "red",
-          data: durations,
+          data: totalDurations,
           fill: false
         }
       ]
@@ -97,13 +100,13 @@ function populateChart(data) {
     type: "bar",
     data: {
       labels: [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
+        "Workout 1",
+        "Workout 2",
+        "Workout 3",
+        "Workout 4",
+        "Workout 5",
+        "Workout 6",
+        "Workout 7"
       ],
       datasets: [
         {
@@ -169,12 +172,12 @@ function populateChart(data) {
   let donutChart = new Chart(pie2, {
     type: "doughnut",
     data: {
-      labels: workouts,
+      labels: resistanceWorkouts,
       datasets: [
         {
           label: "Excercises Performed",
           backgroundColor: colors,
-          data: pounds
+          data: poundsByCategory
         }
       ]
     },
@@ -187,12 +190,29 @@ function populateChart(data) {
   });
 }
 
-function duration(data) {
+function totalDuration(data) {
   let durations = [];
 
   data.forEach(workout => {
+    durations.push(workout.totalDuration);
+  });
+
+  return durations;
+}
+
+function duration(data) {
+  let durations = [];
+  let names = []; 
+  data.forEach(workout => {
     workout.exercises.forEach(exercise => {
-      durations.push(exercise.duration);
+      if (names.indexOf(exercise.name) !== -1){
+        let index= names.indexOf(exercise.name); 
+        let sumDuration = durations[index] + exercise.duration; 
+        durations[index] = sumDuration; 
+      } else {
+        durations.push(exercise.duration);
+        names.push(exercise.name); 
+      }
     });
   });
 
@@ -201,13 +221,35 @@ function duration(data) {
 
 function calculateTotalWeight(data) {
   let total = [];
-
   data.forEach(workout => {
+    let sumWeight=0; 
     workout.exercises.forEach(exercise => {
-      total.push(exercise.weight);
+      if (exercise.type === "resistance"){
+        sumWeight+=exercise.weight; 
+      }
     });
+    total.push(sumWeight); 
   });
   console.log(total); 
+  return total;
+}
+
+function calculateTotalWeightCategory(data) {
+  let total = [];
+  let names = []; 
+  data.forEach(workout => {
+    workout.exercises.forEach(exercise => {
+      if (names.indexOf(exercise.name) !== -1){
+        let index= names.indexOf(exercise.name); 
+        let sumWeight = total[index] + exercise.weight; 
+        total[index] = sumWeight; 
+      } else {
+        total.push(exercise.weight);
+        names.push(exercise.name); 
+      }
+    });
+  });
+
   return total;
 }
 
@@ -216,9 +258,23 @@ function workoutNames(data) {
 
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
+      if (workouts.indexOf(exercise.name) === -1)
       workouts.push(exercise.name);
     });
   });
-  
+  console.log(workouts);
+  return workouts;
+}
+
+function resistanceNames(data) {
+  let workouts = [];
+
+  data.forEach(workout => {
+    workout.exercises.forEach(exercise => {
+      if (workouts.indexOf(exercise.name) === -1 && exercise.type === "resistance")
+      workouts.push(exercise.name);
+    });
+  });
+  console.log(workouts);
   return workouts;
 }
