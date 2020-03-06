@@ -5,7 +5,6 @@ fetch("/api/workouts/range")
     return response.json();
   })
   .then(data => {
-    console.log(data); 
     populateChart(data);
   });
 
@@ -190,6 +189,7 @@ function populateChart(data) {
   });
 }
 
+//finds total duration for each exercise
 function totalDuration(data) {
   let durations = [];
 
@@ -200,6 +200,7 @@ function totalDuration(data) {
   return durations;
 }
 
+//calculates duration and groups by exercise name
 function duration(data) {
   let durations = [];
   let names = []; 
@@ -219,6 +220,7 @@ function duration(data) {
   return durations;
 }
 
+//calculates total weight in a workout for resistance exercises
 function calculateTotalWeight(data) {
   let total = [];
   data.forEach(workout => {
@@ -230,10 +232,10 @@ function calculateTotalWeight(data) {
     });
     total.push(sumWeight); 
   });
-  console.log(total); 
   return total;
 }
 
+//calculates totalweight over the 7 workouts grouped by categories
 function calculateTotalWeightCategory(data) {
   let total = [];
   let names = []; 
@@ -253,6 +255,7 @@ function calculateTotalWeightCategory(data) {
   return total;
 }
 
+//finds all exercies names
 function workoutNames(data) {
   let workouts = [];
 
@@ -262,10 +265,10 @@ function workoutNames(data) {
       workouts.push(exercise.name);
     });
   });
-  console.log(workouts);
   return workouts;
 }
 
+//finds only resistance exercise names
 function resistanceNames(data) {
   let workouts = [];
 
@@ -275,6 +278,5 @@ function resistanceNames(data) {
       workouts.push(exercise.name);
     });
   });
-  console.log(workouts);
   return workouts;
 }

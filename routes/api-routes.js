@@ -2,8 +2,6 @@ const db = require("../models");
 
 module.exports = function(app) {
 
-    //When are API methods being invoked?
-
     app.get("/api/workouts", function(req, res) {
         //get all workout data and return json 
             // when api.getLastWorkout invoked
