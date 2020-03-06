@@ -59,4 +59,6 @@ Jamie Kook - kookjc6@gmail.com
 Github Repo: 
 [https://github.com/JamieKook/WorkoutTracker](https://github.com/JamieKook/WorkoutTracker)
 
+Deployed App: 
+[https://aqueous-earth-88625.herokuapp.com/](https://aqueous-earth-88625.herokuapp.com/)
 
